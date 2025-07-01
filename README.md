@@ -9,4 +9,4 @@ This connector pulls daily DJIA, S&P 500 and NASDAQ Composite history from Yahoo
    - Source: **main branch** (root)  
    - Folder: **/ (root)**
 3. Save. Your site will go live at:
-https://<DrGFWorxe>.github.io/<options>/
+https://DrGFWorx.github.io/options/
