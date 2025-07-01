@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Yahoo Finance WDC&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: Arial, sans-serif; margin: 1em; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input, button { padding: 0.5em; margin: 0.5em 0; width: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>label { margin-top: 1em; display: block; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2&gt;Yahoo Finance WDC&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p&gt;Enter a comma-separated list of tickers (e.g. ^DJI,^GSPC,^IXIC), start date and end date.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Tickers:&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input id="tickers" type="text" value="^DJI,^GSPC,^IXIC"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Start date (YYYY-MM-DD):&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input id="start" type="date" value="2020-01-01"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>End date (YYYY-MM-DD):&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input id="end" type="date" value="2025-07-01"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button id="submitButton"&gt;Get Data&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>(function() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const myConnector = tableau.makeConnector();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>myConnector.getSchema = function(schemaCallback) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cols = [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "Date",<span class="Apple-converted-space">    </span>alias: "Date",<span class="Apple-converted-space">    </span>dataType: tableau.dataTypeEnum.date },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "IndexName", alias: "IndexName", dataType: tableau.dataTypeEnum.string },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "Open",<span class="Apple-converted-space">    </span>alias: "Open",<span class="Apple-converted-space">    </span>dataType: tableau.dataTypeEnum.float },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "High",<span class="Apple-converted-space">    </span>alias: "High",<span class="Apple-converted-space">    </span>dataType: tableau.dataTypeEnum.float },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "Low", <span class="Apple-converted-space">    </span>alias: "Low", <span class="Apple-converted-space">    </span>dataType: tableau.dataTypeEnum.float },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "Close", <span class="Apple-converted-space">  </span>alias: "Close", <span class="Apple-converted-space">  </span>dataType: tableau.dataTypeEnum.float },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "AdjClose",alias: "AdjClose",dataType: tableau.dataTypeEnum.float },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: "Volume",<span class="Apple-converted-space">  </span>alias: "Volume",<span class="Apple-converted-space">  </span>dataType: tableau.dataTypeEnum.int }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tableSchema = {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>id: "yahooIndices",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>alias: "Daily index prices from Yahoo Finance",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>columns: cols</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>schemaCallback([tableSchema]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>myConnector.getData = async function(table, doneCallback) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const config = JSON.parse(tableau.connectionData);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const [symbols, start, end] = [config.tickers, config.start, config.end];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tickers = symbols.split(",").map(s =&gt; s.trim());</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let tableData = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (let ticker of tickers) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const s = new Date(start).getTime()/1000;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const e = new Date(end).getTime()/1000;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const url =<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>`https://query1.finance.yahoo.com/v7/finance/download/${encodeURIComponent(ticker)}`</p>
+<p class="p1"><span class="Apple-converted-space">            </span>+ `?period1=${s}&amp;period2=${e}&amp;interval=1d&amp;events=history`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const resp = await fetch(url);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const text = await resp.text();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const lines = text.split("\n").filter(r=&gt;r.length);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const headers = lines[0].split(",");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const idxMap = headers.reduce((m,h,i)=&gt;{ m[h]=i; return m; }, {});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i=1; i&lt;lines.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>const row = lines[i].split(",");</p>
+<p class="p1"><span class="Apple-converted-space">              </span>tableData.push({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Date:<span class="Apple-converted-space">    </span>row[idxMap["Date"]],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>IndexName: ticker,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Open:<span class="Apple-converted-space">    </span>parseFloat(row[idxMap["Open"]]) <span class="Apple-converted-space">  </span>|| null,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>High:<span class="Apple-converted-space">    </span>parseFloat(row[idxMap["High"]]) <span class="Apple-converted-space">  </span>|| null,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Low: <span class="Apple-converted-space">    </span>parseFloat(row[idxMap["Low"]])<span class="Apple-converted-space">    </span>|| null,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Close: <span class="Apple-converted-space">  </span>parseFloat(row[idxMap["Close"]])<span class="Apple-converted-space">  </span>|| null,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>AdjClose:parseFloat(row[idxMap["Adj Close"]]) || null,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Volume:<span class="Apple-converted-space">  </span>parseInt(row[idxMap["Volume"]], 10)<span class="Apple-converted-space">  </span>|| null</p>
+<p class="p1"><span class="Apple-converted-space">              </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>console.error(`Error fetching ${ticker}:`, err);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>table.appendRows(tableData);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>doneCallback();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>tableau.registerConnector(myConnector);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelector("#submitButton").addEventListener("click", () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const cfg = {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>tickers: document.querySelector("#tickers").value,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>start: <span class="Apple-converted-space">  </span>document.querySelector("#start").value,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>end: <span class="Apple-converted-space">    </span>document.querySelector("#end").value</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tableau.connectionData<span class="Apple-converted-space">    </span>= JSON.stringify(cfg);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tableau.connectionName<span class="Apple-converted-space">    </span>= "Yahoo Finance Indices";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tableau.submit();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>})();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
